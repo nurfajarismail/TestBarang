@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //besok lanjut
+                startActivity(LihatBarang.getActIntent(MainActivity.this));
             }
         });
     }
