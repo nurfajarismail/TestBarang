@@ -18,13 +18,15 @@ public class AdapterLihatBarang extends
         RecyclerView.Adapter<AdapterLihatBarang.ViewHolder> {
     private ArrayList<Barang> daftarBarang;
     private Context context;
+    FirebaseDataListener listener;
 
-    public AdapterLihatBarang(ArrayList<Barang> barangs, Context ctx) {
+    public AdapterLihatBarang(ArrayList<Barang> barangs, Context c) {
         /**
          * Inisiasi data dan variabel yang akan digunakan
          */
         daftarBarang = barangs;
-        context = ctx;
+        context = c;
+        listener = (LihatBarang) c;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -84,6 +86,7 @@ public class AdapterLihatBarang extends
                 dialog.show();
 
                 Button updateButton = (Button) dialog.findViewById(R.id.btnUpdate);
+                Button delButton = (Button) dialog.findViewById(R.id.btnDelete);
 
 
                 //apabila tombol edit diklik
@@ -93,6 +96,20 @@ public class AdapterLihatBarang extends
                             public void onClick(View view) {
                                 dialog.dismiss();
                                 context.startActivity(TambahData.getActIntent((Activity) context).putExtra("data",daftarBarang.get(position)));
+                            }
+                        }
+                );
+
+                //apabila tombol delete diklik
+                delButton.setOnClickListener(
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                /**
+                                 *  Kodingan untuk Delete data (memanggil interface delete data)
+                                 */
+                                dialog.dismiss();
+                                listener.onDeleteData(daftarBarang.get(position), position);
                             }
                         }
                 );
@@ -108,5 +125,9 @@ public class AdapterLihatBarang extends
          * Mengembalikan jumlah item pada barang
          */
         return daftarBarang.size();
+    }
+
+    public interface FirebaseDataListener{
+        void onDeleteData(Barang barang, int position);
     }
 }
