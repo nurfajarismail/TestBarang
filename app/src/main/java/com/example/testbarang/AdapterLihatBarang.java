@@ -1,10 +1,16 @@
 package com.example.testbarang;
 
+import android.app.Activity;
+import android.app.Dialog;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.content.Context;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -54,12 +60,15 @@ public class AdapterLihatBarang extends
          * Menampilkan data pada view
          */
         final String name = daftarBarang.get(position).getNama();
+        final String kode = daftarBarang.get(position).getKode();
         holder.tvTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 /**
                  * untuk latihan Selanjutnya , jika ingin membaca detail data
                  */
+
+
             }
         });
         holder.tvTitle.setOnLongClickListener(new View.OnLongClickListener() {
@@ -68,6 +77,25 @@ public class AdapterLihatBarang extends
                 /**
                  * untuk latihan Selanjutnya ,fungsi Delete dan Update data
                  */
+
+                final Dialog dialog = new Dialog(context);
+                dialog.setContentView(R.layout.buat_dialog);
+                dialog.setTitle("Pilih Aksi");
+                dialog.show();
+
+                Button updateButton = (Button) dialog.findViewById(R.id.btnUpdate);
+
+
+                //apabila tombol edit diklik
+                updateButton.setOnClickListener(
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dialog.dismiss();
+                                context.startActivity(TambahData.getActIntent((Activity) context).putExtra("data",daftarBarang.get(position)));
+                            }
+                        }
+                );
                 return true;
             }
         });

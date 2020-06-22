@@ -2,7 +2,7 @@ package com.example.testbarang;
 
 import java.io.Serializable;
 
-public class Barang {
+public class Barang implements Serializable{
     private String kode, nama;
 
     public Barang(){}

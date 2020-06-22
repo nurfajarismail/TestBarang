@@ -34,7 +34,20 @@ public class TambahData extends AppCompatActivity {
 
         //mengambil referensi ke firebase database
         database = FirebaseDatabase.getInstance().getReference();
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
+        final Barang barang = (Barang) getIntent().getSerializableExtra("data");
+
+        if (barang != null) {
+            etKode.setText(barang.getKode());
+            etNama.setText(barang.getNama());
+            btnSubmit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    barang.setKode(etKode.getText().toString());
+                    barang.setNama(etNama.getText().toString());
+                    updateBarang(barang);
+                }
+            });
+        } else {btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!(etKode.getText().toString().isEmpty()) &&
@@ -51,7 +64,10 @@ public class TambahData extends AppCompatActivity {
                         getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(etKode.getWindowToken(), 0);
             }
-        });
+        });}
+
+
+
     }
 
     public void submitBrg(Barang brg){
@@ -84,7 +100,7 @@ public class TambahData extends AppCompatActivity {
          * Baris kode yang digunakan untuk mengupdate data barang
          * yang sudah dimasukkan di Firebase Realtime Database
          */
-        database.child("barang") //akses parent index, ibaratnya seperti nama tabel
+        database.child("Barang") //akses parent index, ibaratnya seperti nama tabel
                 .child(barang.getKode()) //select barang berdasarkan key
                 .setValue(barang) //set value barang yang baru
                 .addOnSuccessListener(this, new OnSuccessListener<Void>() {
