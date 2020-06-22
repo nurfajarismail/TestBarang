@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethod;
 import android.view.inputmethod.InputMethodManager;
@@ -71,6 +72,11 @@ public class TambahData extends AppCompatActivity {
         //kode untuk pengambilan intent
         return new Intent(activity, TambahData.class);
     }
+    private boolean isEmpty(String s){
+        // Cek apakah ada fields yang kosong, sebelum disubmit
+        return TextUtils.isEmpty(s);
+    }
+
 
 
     private void updateBarang(Barang barang) {
